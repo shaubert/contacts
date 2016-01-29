@@ -1,0 +1,17 @@
+apply plugin: 'com.android.library'
+
+dependencies {
+    compile 'com.googlecode.libphonenumber:libphonenumber:7.2.4'
+}
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+
+    defaultConfig {
+        minSdkVersion 11
+        targetSdkVersion 22
+    }
+}
+
+apply from: '../maven_push.gradle'
