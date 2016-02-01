@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 dependencies {
-    compile 'com.googlecode.libphonenumber:libphonenumber:7.2.4'
+    compile 'com.googlecode.libphonenumber:libphonenumber:7.1.1'
 }
 
 android {
