@@ -8,5 +8,5 @@ Easy way to get all contacts from Android.
         maven{url "https://github.com/shaubert/maven-repo/raw/master/releases"}
     }
     dependencies {
-        compile 'com.shaubert.contacts:library:1.0.0'
+        compile 'com.shaubert.contacts:library:1.0.1'
     }
