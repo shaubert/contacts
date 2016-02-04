@@ -12,6 +12,10 @@ import java.util.Locale;
 
 public class Phones {
 
+    public static final String TAG = Phones.class.getSimpleName();
+
+    public static boolean LOGGING = false;
+
     public static String formatInternationalPhone(String phone) {
         return formatInternationalPhone(phone, "");
     }
@@ -73,7 +77,8 @@ public class Phones {
         PhoneNumberUtil util = PhoneNumberUtil.getInstance();
         try {
             return util.parse(phone, defaultRegion);
-        } catch (NumberParseException ignored) {
+        } catch (NumberParseException ex) {
+            if (LOGGING) Log.w(TAG, "failed to parse phone: " + phone, ex);
         }
 
         return null;
@@ -99,8 +104,8 @@ public class Phones {
                     if (PhoneNumberUtil.getInstance().isValidNumber(number)) {
                         return number;
                     }
-                } catch (NumberParseException ignored) {
-                    Log.e("!!!", "!!!", ignored);
+                } catch (NumberParseException ex) {
+                    if (LOGGING) Log.w(TAG, "failed to parse phone: " + phone, ex);
                 }
             }
         }
@@ -112,7 +117,8 @@ public class Phones {
         try {
             TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             return manager.getSimCountryIso();
-        } catch (Exception ignored) {
+        } catch (Exception ex) {
+            if (LOGGING) Log.w(TAG, "failed to get TELEPHONY_SERVICE", ex);
         }
         return null;
     }
@@ -121,7 +127,8 @@ public class Phones {
         try {
             TelephonyManager manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             return manager.getNetworkCountryIso();
-        } catch (Exception ignored) {
+        } catch (Exception ex) {
+            if (LOGGING) Log.w(TAG, "failed to get TELEPHONY_SERVICE", ex);
         }
         return null;
     }
