@@ -5,8 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.shaubert.contacts.Contact;
+import com.shaubert.contacts.Phones;
 import com.shaubert.ui.remoteimageview.RemoteImageView;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ContactListItemPresenter {
     private RemoteImageView image;
@@ -15,11 +21,17 @@ public class ContactListItemPresenter {
     private View view;
     private Contact data;
 
+    private String[] possibleRegions;
+
     public ContactListItemPresenter(LayoutInflater inflater, ViewGroup parent) {
         view = inflater.inflate(R.layout.contact_list_item, parent, false);
         image = (RemoteImageView) view.findViewById(R.id.image);
         name = (TextView) view.findViewById(R.id.name);
         details = (TextView) view.findViewById(R.id.details);
+
+        List<String> regions = new ArrayList<String>(Arrays.asList(Phones.getPossibleRegions(parent.getContext())));
+        regions.add("ru");
+        possibleRegions = regions.toArray(new String[regions.size()]);
     }
 
     public View getView() {
@@ -41,6 +53,11 @@ public class ContactListItemPresenter {
 
             String phone = data.getPhone();
             if (!TextUtils.isEmpty(phone)) {
+                Phonenumber.PhoneNumber phoneNumber = Phones.parsePhone(phone, possibleRegions);
+                if (phoneNumber != null) {
+                    phone = Phones.formatInternationalPhone(phoneNumber);
+                }
+
                 details.setText(phone);
                 details.setVisibility(View.VISIBLE);
             } else {
